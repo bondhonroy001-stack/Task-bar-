@@ -13,37 +13,66 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  boards    Board[]
+  id            String        @id @default(cuid())
+  name          String
+  email         String        @unique
+  password      String
+  createdAt     DateTime      @default(now())
+  boards        Board[]
+  memberships   BoardMember[]
+  activities    Activity[]
 }
 
 model Board {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   title     String
-  createdAt DateTime @default(now())
-  owner     User     @relation(fields: [ownerId], references: [id])
+  color     String        @default("zinc")
+  createdAt DateTime      @default(now())
+  owner     User          @relation(fields: [ownerId], references: [id])
   ownerId   String
   lists     List[]
+  members   BoardMember[]
+  activities Activity[]
+}
+
+model BoardMember {
+  id        String   @id @default(cuid())
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  role      String   @default("member")
+  createdAt DateTime @default(now())
+
+  @@unique([boardId, userId])
 }
 
 model List {
-  id       String @id @default(cuid())
-  title    String
-  order    Int
-  board    Board  @relation(fields: [boardId], references: [id])
-  boardId  String
-  cards    Card[]
+  id      String @id @default(cuid())
+  title   String
+  order   Int
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId String
+  cards   Card[]
 }
 
 model Card {
-  id          String  @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String?
+  dueDate     DateTime?
+  labels      String[]  @default([])
   order       Int
-  list        List    @relation(fields: [listId], references: [id])
+  list        List      @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId      String
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  message   String
+  createdAt DateTime @default(now())
 }

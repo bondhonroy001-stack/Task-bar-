@@ -22,30 +22,42 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
   if (!board) notFound();
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <Link href="/dashboard" className="text-sm text-gray-600 hover:underline">
-        ← Back to boards
-      </Link>
-      <h1 className="mt-2 text-xl font-semibold text-gray-900">{board.title}</h1>
+    <div className="min-h-screen bg-[#fafafa]">
+      <header className="border-b border-zinc-200 bg-white">
+        <div className="mx-auto flex max-w-none items-center gap-4 px-6 py-4">
+          <Link href="/dashboard" className="text-sm text-zinc-500 transition-colors hover:text-zinc-900">
+            ← Boards
+          </Link>
+          <div className="h-4 w-px bg-zinc-200" />
+          <h1 className="text-base font-semibold text-zinc-900">{board.title}</h1>
+        </div>
+      </header>
 
-      <div className="mt-6 flex gap-4 overflow-x-auto pb-4">
+      <main className="flex gap-5 overflow-x-auto px-6 py-8">
         {board.lists.map((list) => (
-          <div key={list.id} className="w-64 shrink-0 rounded-lg bg-gray-100 p-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-gray-800">{list.title}</h2>
+          <div key={list.id} className="w-72 shrink-0 rounded-xl border border-zinc-200 bg-white p-3.5 shadow-sm">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-zinc-800">{list.title}</h2>
               <form action={deleteList.bind(null, board.id, list.id)}>
-                <button type="submit" className="text-xs text-red-600 hover:underline">
+                <button type="submit" className="text-xs text-zinc-400 transition-colors hover:text-red-600">
                   Delete
                 </button>
               </form>
             </div>
 
-            <div className="mt-3 space-y-2">
+            <div className="space-y-2">
               {list.cards.map((card) => (
-                <div key={card.id} className="flex items-start justify-between rounded-md bg-white p-2 text-sm shadow-sm">
+                <div
+                  key={card.id}
+                  className="group flex items-start justify-between rounded-lg border border-zinc-100 bg-zinc-50 p-2.5 text-sm text-zinc-800 transition-colors hover:border-zinc-200"
+                >
                   <span>{card.title}</span>
                   <form action={deleteCard.bind(null, board.id, card.id)}>
-                    <button type="submit" className="ml-2 text-xs text-red-600 hover:underline">
+                    <button
+                      type="submit"
+                      className="ml-2 text-zinc-300 opacity-0 transition-opacity hover:text-red-600 group-hover:opacity-100"
+                      aria-label="Delete card"
+                    >
                       ×
                     </button>
                   </form>
@@ -53,32 +65,40 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
               ))}
             </div>
 
-            <form action={createCard.bind(null, board.id, list.id)} className="mt-3 flex gap-1">
+            <form action={createCard.bind(null, board.id, list.id)} className="mt-3 flex gap-1.5">
               <input
                 name="title"
                 placeholder="Add a card"
                 required
-                className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm"
+                className="w-full rounded-lg border border-zinc-200 px-2.5 py-1.5 text-sm outline-none transition-colors focus:border-zinc-400 focus:ring-4 focus:ring-zinc-900/5"
               />
-              <button type="submit" className="rounded-md bg-gray-900 px-2 py-1 text-xs text-white">
+              <button
+                type="submit"
+                className="shrink-0 rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-zinc-800"
+              >
                 Add
               </button>
             </form>
           </div>
         ))}
 
-        <form action={createList.bind(null, board.id)} className="w-64 shrink-0">
-          <input
-            name="title"
-            placeholder="Add a list"
-            required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-          />
-          <button type="submit" className="mt-2 w-full rounded-md bg-gray-900 py-1.5 text-sm text-white">
-            Add list
-          </button>
+        <form action={createList.bind(null, board.id)} className="w-72 shrink-0">
+          <div className="rounded-xl border border-dashed border-zinc-300 p-3.5">
+            <input
+              name="title"
+              placeholder="Add a list"
+              required
+              className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-colors focus:border-zinc-400 focus:ring-4 focus:ring-zinc-900/5"
+            />
+            <button
+              type="submit"
+              className="mt-2 w-full rounded-lg bg-zinc-900 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
+            >
+              Add list
+            </button>
+          </div>
         </form>
-      </div>
+      </main>
     </div>
   );
 }

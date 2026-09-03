@@ -12,16 +12,25 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6 text-center">
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900">Task Board</h1>
-      <p className="mt-4 max-w-md text-lg text-gray-600">
-        A simple, real-time collaborative task board. Organize your work into boards, lists, and cards.
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#fafafa] px-6 text-center">
+      <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 text-sm font-semibold text-white">
+        T
+      </div>
+      <h1 className="text-4xl font-semibold tracking-tight text-zinc-900">Task Board</h1>
+      <p className="mt-3 max-w-sm text-base text-zinc-500">
+        A simple, focused way to organize your work into boards, lists, and cards.
       </p>
-      <div className="mt-8 flex gap-4">
-        <Link href="/signup" className="rounded-md bg-gray-900 px-6 py-3 text-sm font-medium text-white">
+      <div className="mt-8 flex gap-3">
+        <Link
+          href="/signup"
+          className="rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
+        >
           Get Started
         </Link>
-        <Link href="/login" className="rounded-md border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700">
+        <Link
+          href="/login"
+          className="rounded-lg border border-zinc-200 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
+        >
           Log In
         </Link>
       </div>
